@@ -1,6 +1,6 @@
 <?php
 $serverName = "tcp:eventhorizon-sqlserver-thivya.database.windows.net,1433";
-$database   = "eventhorizon";
+$database   = "eventhorizon-db";
 $username   = "sqladmin";
 $password   = "Password@123";
 
