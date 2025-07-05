@@ -22,7 +22,13 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <h3>Your Events:</h3>
   <ul>
     <?php foreach ($events as $event): ?>
-      <li><?php echo htmlspecialchars($event['Title']) . " on " . $event['Date']; ?></li>
+      <li>
+        <?php echo htmlspecialchars($event['Title']) . " on " . $event['Date']; ?>
+        <a href="edit_event.php?id=<?php echo $event['Id']; ?>">Edit</a>
+    |   <a href="delete_event.php?id=<?php echo $event['Id']; ?>"
+         onclick="return confirm('Delete this event?');">Delete</a>
+  
+      </li>
     <?php endforeach; ?>
   </ul>
 </body>
