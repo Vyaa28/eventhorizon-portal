@@ -16,13 +16,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['email']   = $email;
         $_SESSION['role']    = $role;
         $_SESSION['user_id'] = $user['Id'];
+
+          if ($role === 'organizer') {
         header("Location: dashboard.php");
-        echo "<script>window.location.href='dashboard.php';</script>";
-        exit();
+    } else {
+        header("Location: events.php");
+    }
+    exit();
+}
     } else {
         $error = "Invalid email or password.";
     }
-}
+
 ?>
 <!DOCTYPE html>
 <html>
