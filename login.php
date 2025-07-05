@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['role']    = $role;
         $_SESSION['user_id'] = $user['Id'];
         header("Location: dashboard.php");
+        echo "<script>window.location.href='dashboard.php';</script>";
         exit();
     } else {
         $error = "Invalid email or password.";
