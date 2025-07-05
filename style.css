@@ -71,3 +71,20 @@ h1 {
 .event-list a:hover {
   text-decoration: underline;
 }
+
+.event-card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.event-card h3 {
+  color: #2a7ae2;
+}
+
+.registered-msg {
+  color: green;
+  font-weight: bold;
+}

@@ -2,34 +2,52 @@
 session_start();
 require 'db.php';
 
-$events = $conn->query("SELECT * FROM Events")->fetchAll(PDO::FETCH_ASSOC);
-
-if ($_SERVER["REQUEST_METHOD"] === "POST" && $_SESSION['role'] === 'attendee') {
-    $event_id = $_POST['event_id'];
-    $user_id  = $_SESSION['user_id'];
-
-    $stmt = $conn->prepare("INSERT INTO Registrations (UserId, EventId) VALUES (?, ?)");
-    $stmt->execute([$user_id, $event_id]);
-    echo "<p>Registered successfully!</p>";
+// Redirect if not logged in
+if (!isset($_SESSION['email']) || $_SESSION['role'] !== 'attendee') {
+    header("Location: login.php");
+    exit();
 }
+
+$userId = $_SESSION['user_id'];
+
+// Fetch all events
+$stmt = $conn->query("SELECT * FROM Events ORDER BY Date ASC");
+$events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Fetch events already registered
+$registeredStmt = $conn->prepare("SELECT EventId FROM Registrations WHERE UserId = ?");
+$registeredStmt->execute([$userId]);
+$registeredEvents = $registeredStmt->fetchAll(PDO::FETCH_COLUMN);
 ?>
 <!DOCTYPE html>
 <html>
-<head><title>All Events</title></head>
-<body>
-  <h2>Upcoming Events</h2>
-  <?php foreach ($events as $row): ?>
-    <div>
-      <h3><?php echo htmlspecialchars($row['Title']); ?></h3>
-      <p><?php echo htmlspecialchars($row['Description']); ?></p>
-      <p><b>Date:</b> <?php echo $row['Date']; ?> | <b>Location:</b> <?php echo htmlspecialchars($row['Location']); ?></p>
-      <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'attendee'): ?>
-        <form method="POST">
-          <input type="hidden" name="event_id" value="<?php echo $row['Id']; ?>">
-          <button type="submit">Register</button>
-        </form>
-      <?php endif; ?>
-    </div><hr>
-  <?php endforeach; ?>
+<head>
+  <title>Upcoming Events</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dashboard">
+  <div class="container">
+    <h1>📅 Upcoming Events</h1>
+    <p>Hello, <strong><?php echo $_SESSION['email']; ?></strong></p>
+    <a href="logout.php" class="logout">🚪 Logout</a>
+
+    <?php foreach ($events as $event): ?>
+      <div class="event-card">
+        <h3><?php echo htmlspecialchars($event['Title']); ?></h3>
+        <p><strong>Date:</strong> <?php echo $event['Date']; ?></p>
+        <p><strong>Location:</strong> <?php echo htmlspecialchars($event['Location']); ?></p>
+        <p><?php echo nl2br(htmlspecialchars($event['Description'])); ?></p>
+
+        <?php if (in_array($event['Id'], $registeredEvents)): ?>
+          <p class="registered-msg">✅ You are already registered for this event.</p>
+        <?php else: ?>
+          <form method="POST" action="register_event.php">
+            <input type="hidden" name="event_id" value="<?php echo $event['Id']; ?>">
+            <button type="submit">Register & Pay</button>
+          </form>
+        <?php endif; ?>
+      </div>
+    <?php endforeach; ?>
+  </div>
 </body>
 </html>
