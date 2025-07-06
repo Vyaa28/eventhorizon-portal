@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           if ($role === 'organizer') {
         header("Location: dashboard.php");
     } else {
-        header("Location: events.php");
+        header("Location: attendee_dashboard.php");
     }
     exit();
 }
