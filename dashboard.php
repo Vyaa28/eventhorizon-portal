@@ -26,7 +26,7 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <nav class="nav-links">
       <a href="create_event.php">➕ Create New Event</a>
-      <a href="events.php">📅 View Events</a>
+      <!-- <a href="events.php">📅 View Events</a> -->
       <a href="logout.php" class="logout">🚪 Logout</a>
     </nav>
 
