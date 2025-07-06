@@ -88,3 +88,16 @@ h1 {
   color: green;
   font-weight: bold;
 }
+.nav-tab {
+  display: inline-block;
+  margin: 10px 10px 20px 0;
+  padding: 10px 16px;
+  background: #6c5ce7;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.nav-tab:hover {
+  background: #4834d4;
+}

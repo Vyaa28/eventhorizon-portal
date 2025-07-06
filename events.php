@@ -29,7 +29,9 @@ $registeredEvents = $registeredStmt->fetchAll(PDO::FETCH_COLUMN);
   <div class="container">
     <h1>📅 Upcoming Events</h1>
     <p>Hello, <strong><?php echo $_SESSION['email']; ?></strong></p>
+   <a href="attendee_dashboard.php" class="nav-tab">🧾 My Registered Events</a>
     <a href="logout.php" class="logout">🚪 Logout</a>
+    
 
     <?php foreach ($events as $event): ?>
       <div class="event-card">
